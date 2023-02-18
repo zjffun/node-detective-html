@@ -1,3 +1,8 @@
+[![npm][npm]][npm-url]
+[![cover][cover]][cover-url]
+[![node][node]][node-url]
+[![size][size]][size-url]
+
 # node-detective-html
 
 Find the dependencies of an HTML file.
@@ -25,3 +30,14 @@ const dependencies = detective(content);
 ### License
 
 MIT
+
+[npm]: https://img.shields.io/npm/v/detective-html.svg
+[npm-url]: https://npmjs.com/package/detective-html
+[node]: https://img.shields.io/node/v/detective-html.svg
+[node-url]: https://nodejs.org
+[deps]: https://david-dm.org/zjffun/detective-html.svg
+[deps-url]: https://david-dm.org/zjffun/detective-html
+[cover]: https://codecov.io/gh/zjffun/detective-html/branch/master/graph/badge.svg
+[cover-url]: https://codecov.io/gh/zjffun/detective-html
+[size]: https://packagephobia.now.sh/badge?p=detective-html
+[size-url]: https://packagephobia.now.sh/result?p=detective-html
