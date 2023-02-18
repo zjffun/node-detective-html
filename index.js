@@ -45,6 +45,10 @@ module.exports = function detective(fileContent) {
 
       const handlers = defaultSources.get(tagName.toLowerCase());
 
+      if (!handlers) {
+        return;
+      }
+
       if (handlers.size === 0) {
         return;
       }

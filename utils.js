@@ -1044,3 +1044,4 @@ function traverse(root, callback) {
 
 const webpackIgnoreCommentRegexp = /webpackIgnore:(\s+)?(true|false)/;
 exports.webpackIgnoreCommentRegexp = webpackIgnoreCommentRegexp;
+exports.defaultSources = defaultSources;
