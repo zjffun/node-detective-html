@@ -7,7 +7,7 @@ const { traverse, defaultSources } = require("./utils");
 const debug = debuglog("detective-html");
 
 /**
- * Extract the @import statements from a given html file's content
+ * Extract the names of the used files from a given html file's content
  *
  * @param  {String} fileContent
  * @return {String[]}
@@ -84,7 +84,6 @@ module.exports = function detective(fileContent) {
 
       for (const source of result) {
         if (!source) {
-          // eslint-disable-next-line no-continue
           continue;
         }
 
