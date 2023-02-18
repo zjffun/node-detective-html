@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node_version: [12, 14, 16, 18]
+        node_version: ["12", "14", "16", "18"]
         os: [ubuntu-latest]
 
     steps:
@@ -23,6 +23,6 @@ jobs:
 
       - name: Install dependencies & Run unit tests
         run: |
-          yarn ci
+          yarn install
           yarn test:ci
           yarn codecov
