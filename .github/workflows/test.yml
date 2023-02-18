@@ -1,8 +1,9 @@
-name: test CI
+name: Test CI
 on:
   push:
+    branches: [main]
   pull_request:
-  workflow_dispatch:
+    branches: [main]
 
 jobs:
   test:

@@ -14,6 +14,11 @@
     "type": "git",
     "url": "git+https://github.com/zjffun/node-detective-html.git"
   },
+  "files": [
+    "./index.js",
+    "./utils.js",
+    "./HtmlSourceError.js"
+  ],
   "keywords": [
     "detective",
     "html",
