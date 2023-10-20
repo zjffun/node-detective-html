@@ -2,7 +2,7 @@
 
 const { debuglog } = require("util");
 const { parse } = require("parse5");
-const { traverse, defaultSources } = require("./utils");
+const { traverse, defaultSources, addDataSources } = require("./utils");
 
 const debug = debuglog("detective-html");
 
@@ -12,10 +12,12 @@ const debug = debuglog("detective-html");
  * @param  {String} fileContent
  * @return {String[]}
  */
-module.exports = function detective(fileContent) {
+module.exports = function detective(fileContent, listDatas = []) {
   if (typeof fileContent === "undefined") throw new Error("content not given");
   if (typeof fileContent !== "string")
     throw new Error("content is not a string");
+
+  addDataSources(listDatas)   // for ex: addDataSources(['source', 'img'])
 
   let dependencies = [];
   let ast = {};

@@ -728,69 +728,51 @@ function metaContentType(options) {
 //   ];
 // }
 
+// defaultSources is populated in addDataSources
+// it is required to repopulate it each time detective is called so that
+// it is possible to call detective the first time with data- list,
+// and the second time without
+const defaultSources = new Map()
 
-const defaultSources = new Map([["audio", new Map([["src", {
-  type: srcType
-}]])], ["embed", new Map([["src", {
-  type: srcType
-}]])], ["img", new Map([["src", {
-  type: srcType
-}], ["srcset", {
-  type: srcsetType
-}]])], ["input", new Map([["src", {
-  type: srcType
-}]])], ["link", new Map([["href", {
-  type: srcType,
-  filter: linkUnionFilter
-}], ["imagesrcset", {
-  type: srcsetType,
-  filter: linkHrefFilter
-}]])], ["meta", new Map([["content", {
-  type: metaContentType,
-  filter: metaContentFilter
-}]])], ["object", new Map([["data", {
-  type: srcType
-}]])], ["script", new Map([["src", {
-  type: srcType,
-  filter: scriptSrcFilter
-}], // Using href with <script> is described here: https://developer.mozilla.org/en-US/docs/Web/SVG/Element/script
-["href", {
-  type: srcType,
-  filter: scriptSrcFilter
-}], ["xlink:href", {
-  type: srcType,
-  filter: scriptSrcFilter
-}]])], ["source", new Map([["src", {
-  type: srcType
-}], ["srcset", {
-  type: srcsetType
-}]])], ["track", new Map([["src", {
-  type: srcType
-}]])], ["video", new Map([["poster", {
-  type: srcType
-}], ["src", {
-  type: srcType
-}]])], // SVG
-["image", new Map([["xlink:href", {
-  type: srcType
-}], ["href", {
-  type: srcType
-}]])], ["use", new Map([["xlink:href", {
-  type: srcType
-}], ["href", {
-  type: srcType
-}]])] // [
-//   'webpack-import',
-//   new Map([
-//     [
-//       'src',
-//       {
-//         type: webpackImportType,
-//       },
-//     ],
-//   ]),
-// ],
-]);
+// addDataSources(lSources):
+// Add to defaultSources 'data-' attributes to the sources in list
+// Example: addDataSources(['img', 'source']) adds data-src and data-srcset to this html sources
+//          in defaultSources
+function addDataSources(lSources) {
+  defaultSources.set("audio", new Map([["src", { type: srcType }]]))
+  defaultSources.set("embed", new Map([["src", { type: srcType }]]))
+  defaultSources.set("img", new Map([["src", { type: srcType }], ["srcset", { type: srcsetType }]]))
+  defaultSources.set("input", new Map([["src", { type: srcType }]]))
+  defaultSources.set("link", new Map([["href", { type: srcType, filter: linkUnionFilter }], ["imagesrcset", { type: srcsetType, filter: linkHrefFilter }]]))
+  defaultSources.set("meta", new Map([["content", { type: metaContentType, filter: metaContentFilter }]]))
+  defaultSources.set("object", new Map([["data", { type: srcType }]]))
+  defaultSources.set("script", new Map([["src", { type: srcType, filter: scriptSrcFilter }], ["href", { type: srcType, filter: scriptSrcFilter }], ["xlink:href", { type: srcType, filter: scriptSrcFilter }]]))
+  defaultSources.set("source", new Map([["src", { type: srcType }], ["srcset", { type: srcsetType }]]))
+  defaultSources.set("track", new Map([["src", { type: srcType }]]))
+  defaultSources.set("video", new Map([["poster", { type: srcType }], ["src", { type: srcType }]]))
+  defaultSources.set("image", new Map([["xlink:href", { type: srcType }], ["href", { type: srcType }]]))
+  defaultSources.set("use", new Map([["xlink:href", { type: srcType }], ["href", { type: srcType }]]))
+  // [
+  //   'webpack-import',
+  //   new Map([
+  //     [
+  //       'src',
+  //       {
+  //         type: webpackImportType,
+  //       },
+  //     ],
+  //   ]),
+  // ],
+
+  lSources.forEach(src => {
+    let defaultSrc = defaultSources.get(src)
+    let datas = []
+    defaultSrc.forEach((attr, key) => {
+      datas.push({ key: 'data-' + key, attr: attr})
+    })
+    datas.forEach(data => defaultSrc.set(data.key, data.attr))
+  })
+}
 
 function normalizeSourcesList(sources) {
   if (typeof sources === "undefined") {
@@ -1045,3 +1027,4 @@ function traverse(root, callback) {
 const webpackIgnoreCommentRegexp = /webpackIgnore:(\s+)?(true|false)/;
 exports.webpackIgnoreCommentRegexp = webpackIgnoreCommentRegexp;
 exports.defaultSources = defaultSources;
+exports.addDataSources = addDataSources

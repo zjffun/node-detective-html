@@ -26,6 +26,15 @@ const content = fs.readFileSync("index.html", "utf8");
 // list the names of the used files (ex: 'foo.css', 'foo.png', etc)
 const dependencies = detective(content);
 ```
+### data-src
+
+In many cases, ```data-src,...``` are used to [lazy load images](https://stackoverflow.com/questions/12396068/speed-up-page-load-by-deferring-images)
+
+This is possible detective outputs such attributes by adding a list of html tags to add such attributes.
+
+```js
+const dependencies = detective(content, [ 'img', 'source' ]);
+```
 
 ### License
 
