@@ -2,7 +2,7 @@
 
 const { debuglog } = require("util");
 const { parse } = require("parse5");
-const { traverse, defaultSources } = require("./utils");
+const { traverse, normalizeOptions } = require("./utils");
 
 const debug = debuglog("detective-html");
 
@@ -10,15 +10,23 @@ const debug = debuglog("detective-html");
  * Extract the names of the used files from a given html file's content
  *
  * @param  {String} fileContent
+ * @param  {Object} rawOptions: optional argument. When provided, this object contains
+ *                  attributes to track the way webpack does it
+ *                  (cf. https://webpack.js.org/loaders/html-loader/#object)
+ *                  An example of rawOptions is in test/test-data.js
  * @return {String[]}
  */
-module.exports = function detective(fileContent) {
+module.exports = function detective(fileContent, rawOptions={}) {
   if (typeof fileContent === "undefined") throw new Error("content not given");
   if (typeof fileContent !== "string")
     throw new Error("content is not a string");
 
   let dependencies = [];
   let ast = {};
+
+  // get sourcesOptions, the way webpack does it - cf. https://webpack.js.org/loaders/html-loader/#object
+  let norm = normalizeOptions(rawOptions, {})
+  let sourcesOption = norm.sources.list
 
   try {
     debug("content: %s", fileContent);
@@ -43,7 +51,7 @@ module.exports = function detective(fileContent) {
 
       name = attribute.prefix ? `${attribute.prefix}:${name}` : name;
 
-      const handlers = defaultSources.get(tagName.toLowerCase());
+      const handlers = sourcesOption.get(tagName.toLowerCase());
 
       if (!handlers) {
         return;
