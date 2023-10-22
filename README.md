@@ -26,6 +26,30 @@ const content = fs.readFileSync("index.html", "utf8");
 // list the names of the used files (ex: 'foo.css', 'foo.png', etc)
 const dependencies = detective(content);
 ```
+### Non-standard attributes
+
+In many cases, ```data-src,...``` are used to [lazy load images](https://stackoverflow.com/questions/12396068/speed-up-page-load-by-deferring-images)
+
+This is possible detective outputs such non-standard attribute dependencies by adding
+a list of html tags and associated specific attributes.
+The way it is provided is similar to what
+[webpack uses](https://webpack.js.org/loaders/html-loader/#object).
+
+```js
+const options = {
+  sources: {
+    list:
+      [
+        "...",
+        { tag: "img", attribute: "data-src", type: "src", },
+        { tag: "img", attribute: "data-srcset", type: "srcset", },
+        { tag: "source", attribute: "data-src", type: "src", },
+        { tag: "source", attribute: "data-srcset", type: "srcset", },
+      ]
+  }
+}
+const dependencies = detective(content, options);
+```
 
 ### License
 

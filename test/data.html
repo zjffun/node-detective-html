@@ -1,0 +1,17 @@
+<!doctype html>
+
+<img src="image1.png">
+<img src='small2.png' data-src="big3.webp">
+<img srcset=small4.png data-srcset=big5.webp>
+<img srcset=small6.png data-srcset=big7.webp data-custom="img/NOWAY1.jpg">
+
+<picture data-src="NOWAY2">
+  <source type="image/webp" data-srcset="img/big8.webp" media="(min-width: 513px)">
+  <source type="image/jpeg" data-srcset="img/big9.jpg"  media="(min-width: 513px)">
+  <source type="image/png"  data-srcset="img/big10.png"                   >
+  <img data-src="img/backup1.jpg" data-custom='NOWAY3.jpg' width="640" height="480" alt="Oh! My! God!">
+</picture>
+
+<video src="video1.ogg" data-src="NOWAY4.ogg" controls>
+  Your browser does not support the video tag.
+</video>
